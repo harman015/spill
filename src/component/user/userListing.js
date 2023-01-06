@@ -6,41 +6,66 @@ import Sidebar from '../ui/Sidebar'
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import { useNavigate } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 
 export default function UserListing() {
     const [show, setShow] = useState(false);
+    const [edit, setEdit] = useState(false);
+    const [editId, setEditId] = useState("");
     const handleClose = () => setShow(false);
-  
+
   const [user,setUser]= useState({name:"",email:"",phone:"",city:""});
   const [userlist, setUserlist] = useState("");
   const navigate = useNavigate();
- const userdata = () => {
+
+ const userdata = async() => {
    axios.get("http://localhost:5000/user/allusers").then((result) => {
-     setUserlist({ userlist: result.data.success });
+    setUserlist({ userlist: result.data.success });
     //  console.log("============",result.data)
     
    });
  };
 
- const handleShow =async(datas)=> { 
-    setUser(datas)
-    setShow(true)
-     }
-// const handleEdit =async(datas)=> { 
-//         setUser(datas)
-//     setShow(true)  
-//     }
+    const handleShow =(data)=> { 
+    //    console.log(data,"==============data");
+        setShow(true)
+        setUser(data)
+        }
+        const { id } = useParams();
+    // console.log(id,"===============");
 
-const handleChange = (e) => {
-console.log("=========================hereeeee");
-e.preventDefault();
-const { name, value } = e.target;
-setUser({
-    ...user,[name]:value
-});
-};
+    const handleEdit =(data)=> { 
+    // console.log(data,"==============data");
+    setEdit(true)
+    setUser(data)
+    setEditId(data._id)
+
     
+    }
+    const handleDelete = async (data) => {  
+        // console.log(data,'==================');
+        // return 
+        await axios.post(`http://localhost:5000/user/deleteuser/${data}`).then((result)=>{
+            // console.log({user:result.data.success})
+            userdata()
+        })};
+
+    const handleChange = (e) => {
+        e.preventDefault(); 
+        const { name, value } = e.target;
+        // console.log(name,value,"============fhdgvfudv")
+       return setUser({...user,[name]:value});
+      };
+    
+      const updateUser =async()=>{
+
+        await  axios.post(`http://localhost:5000/user/updateuser/${editId}`,user).then((result)=>{
+              console.log({user:result.data.success}) 
+              setUser({user:result.data.success})
+              navigate("/main")
+              setEditId("")
+            
+      })}
 
  useEffect(() => {
    userdata()
@@ -72,6 +97,8 @@ setUser({
                             <div className="card">
                                 <div className="card-header">
                                 <h4>User Table</h4>
+                               
+                                <button className='btn btn-success' type="submit"><i className='fas fa-user' >+</i></button>
                                 </div>
                                 <div className="card-body p-0">
                                     <div className="table-responsive">
@@ -87,34 +114,42 @@ setUser({
                                             <th >Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody> {userlist.userlist?.map((e,i) => (
-                                        <tr>
-                                        <td>{i+1}</td>
-                                        <td>{e.name}</td>
-                                        <td>
-                                            <img src={`http://localhost:5000/image/${e.image}`} width="100px" alt="not upload"/>
-                                        </td>
-                                        <td>{e.email}</td>
-                                        <td>{e.phone}</td>
-                                        <td>{e.city}</td>
-                                        <td>
-                                    <a href="/" className="btn btn-success " data-toggle="dropdown">
-                                        Detail
-                                    </a>
-                                    <li className="dropdown-menu">
-                                     <li><a className="nav-link text-right" href="#"  onClick={()=>handleShow(e)}>View</a></li>
-                                     <li><a className="nav-link text-right" href="#"  onClick={handleShow(e)}>Update</a></li>
-                                    </li>
-                                   </td> 
-                                    </tr>
-                                     ))}
+                                        <tbody>
+                                         {userlist.userlist?.map((e,i) => {
+                                            return(                                               
+                                                 <tr key={i}>
+                                                <td >{i+1}</td>
+                                                <td>{e.name}</td>
+                                                <td>
+                                                    <img src={`http://localhost:5000/image/${e.image}`} width="100px" alt="not upload"/>
+                                                </td>
+                                                <td>{e.email}</td>
+                                                <td>{e.phone}</td>
+                                                <td>{e.city}</td>
+                                                <td>
+                                            <a href="/" className="btn btn-success " data-toggle="dropdown">
+                                                Detail
+                                            </a>
+                                            <button className='btn btn-danger' onClick={()=>handleDelete(e._id)} type="submit">
+                                                <i className="fas fa-trash alt"></i>
+                                            </button>
+                                            <li className="dropdown-menu">
+                                             <li><a className="nav-link text-right"  href="#show"  onClick={()=>handleShow(e)}>View</a></li>
+                                             <li><a className="nav-link text-right" href="#edit"  onClick={()=>handleEdit(e)}>Update</a></li>
+                                             
+                                            </li>
+                                           </td> 
+                                          
+                                            </tr>
+                                            )}
+                                     )}
                             </tbody>
                             </table>
                           </div>
                          </div> 
                         </div> 
                         </div>
-                        <Modal show={show} onHide={handleClose}>
+                        <Modal show={show}  onHide={handleClose}>
                             <Modal.Header closeButton>
                             <Modal.Title>User Detail</Modal.Title>
                             </Modal.Header>
@@ -125,14 +160,15 @@ setUser({
                                 <Form.Control
                                     type="text"
                                     value={user.name}
-                                    autoFocus
+                                    autoFocus 
                                 />
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                 <Form.Label>Email address</Form.Label>
                                 <Form.Control
                                     type="email"
-                                    value={user.email} 
+                                    value={user.email}
+                                    
                                     autoFocus
                                 />
                                 </Form.Group>
@@ -153,6 +189,7 @@ setUser({
                                 <Form.Label>City</Form.Label>
                                 <Form.Control 
                                     type="text"
+                                  
                                     value={user.city}
                                     autoFocus />
                                 </Form.Group>
@@ -164,7 +201,7 @@ setUser({
                             </Button>
                             </Modal.Footer>
                         </Modal>
-                        <Modal show={show} onHide={handleClose}>
+                        <Modal show={edit}  onHide={handleClose}>
                             <Modal.Header closeButton>
                             <Modal.Title>User Update</Modal.Title>
                             </Modal.Header>
@@ -175,17 +212,19 @@ setUser({
                                 <Form.Control
                                     type="text"
                                     value={user.name}
+                                    name="name"
                                     onChange={handleChange}
-                                    autoFocus
+                                   
                                 />
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                 <Form.Label>Email address</Form.Label>
                                 <Form.Control
                                     type="email"
+                                    name="email"
                                     value={user.email}
                                     onChange={handleChange}
-                                    autoFocus
+                                   
                                 />
                                 </Form.Group>
                                 <Form.Group
@@ -195,9 +234,10 @@ setUser({
                                 <Form.Label>Phone</Form.Label>
                                 <Form.Control 
                                     type="tel"
+                                    name="phone"
                                     value={user.phone}
                                     onChange={handleChange}
-                                    autoFocus />
+                                    />
                                 </Form.Group>
                                 <Form.Group
                                 className="mb-3"
@@ -206,18 +246,16 @@ setUser({
                                 <Form.Label>City</Form.Label>
                                 <Form.Control 
                                     type="text"
+                                    name="city"
                                     placeholder="Mohali"
                                     value={user.city}
                                     onChange={handleChange}
-                                    autoFocus />
+                                    />
                                 </Form.Group>
                             </Form>
                             </Modal.Body>
                             <Modal.Footer>
-                            <Button variant="secondary" onClick={handleClose}>
-                                Close
-                            </Button>
-                            <Button variant="primary" onClick={handleClose}>
+                            <Button variant="primary" onClick={updateUser}>
                                 Save Changes
                             </Button>
                             </Modal.Footer>

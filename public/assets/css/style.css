@@ -618,12 +618,11 @@ select.form-control:not([size]):not([multiple]) {
 }
 
 .col-12.col-md-6.col-lg-6 {
-  margin-left: 377px;
+  margin-left: 216px;
 }
 
 .col-6.col-md-4.mx-auto {
   color: black;
-  background-color: #c7a8a8;
   font-family: sans-serif;
 }
   .card .card-header, .card .card-body, .card .card-footer {

@@ -64,8 +64,8 @@ export default function Login() {
       error.password = "password is required";
     } else if (values.password.length < 4) {
       error.password = "Password must be more than 4 characters";
-    } else if (values.password.length > 10) {
-      error.password = "Password cannot exceed more than 10 characters";
+    } else if (values.password.length > 11) {
+      error.password = "Password cannot exceed more than 11 characters";
     }
     return error;
   };

@@ -11,6 +11,7 @@ import Forgetpassword from "../component/layout/Forget-password";
 import Driverdetail from "../component/Driver/Driverdetail";
 import Legal from "../component/pages/Legal";
 import Document from "../component/Driver/Document";
+import Useradd from "../component/user/useradd";
 function AppRoutes() {
     const routes = useRoutes(
       [
@@ -18,6 +19,7 @@ function AppRoutes() {
          {path:'/register',element:<Register/>},
          {path:'/main',element:<Main/>},
          {path:'/user',element:<User/>},
+         {path:'/useradd',element:<Useradd/>},
          {path:'/profile',element:<Profile/>},
          {path:'/privacy',element:<Privacy/>},
          {path:'/terms&condition',element:<Terms/>},

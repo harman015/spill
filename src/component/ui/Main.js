@@ -7,12 +7,22 @@ import axios from "axios";
 
 export default function Main() {
   const [usercount, setUsercount] = useState("");
+  const [drivercount,setDrivercount] = useState("")
+ 
+   
   useEffect(() => {
     let usercount = axios
       .get("http://localhost:5000/user/count")
       .then((result) => {
         setUsercount((usercount = result.data.success));
       });
+      let drivercount = axios
+      .post("http://localhost:5000/driver/count")
+      .then((result) => {
+        console.log("============",result);
+        setDrivercount((drivercount = result.data.success));
+      });
+      
 
     //  };
   }, []);
@@ -48,10 +58,10 @@ export default function Main() {
                 </div>
                 <div className="card-wrap">
                   <div className="card-header">
-                    <h4 className='text-dark'>News</h4>
+                    <h4 className='text-dark'>Total Drivers</h4>
                   </div>
                   <div className="card-body">
-                    42
+                    {drivercount}
                   </div>
                 </div>
               </div>
