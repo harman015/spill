@@ -1,10 +1,9 @@
 import React from 'react'
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert'
 
 export default function Header() {
 
  const Logout=async()=>{
-  
   Swal.fire({
     title: "Are you sure?",
     text: "You want to logout??",
@@ -15,8 +14,8 @@ export default function Header() {
     confirmButtonText: "Yes",
   }).then((result) => {
     if (result.isConfirmed) {
-      // localStorage.clear();
-      // window.location.href = "/";
+      localStorage.clear();
+      window.location.href = "/";
       Swal.fire("logout", "you are logout now.", "success");
     }
   });
@@ -53,7 +52,7 @@ export default function Header() {
                     <i className="fas fa-cog" /> Settings
                   </a>
                   <div className="dropdown-divider" />
-                  <a href="/" onClick={()=>{Logout()}} className="dropdown-item has-icon text-danger">
+                  <a href="/" onClick={Logout} className="dropdown-item has-icon text-danger">
                     <i className="fas fa-sign-out-alt" /> Logout
                   </a>
                 </div>

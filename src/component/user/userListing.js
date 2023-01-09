@@ -47,7 +47,7 @@ export default function UserListing() {
         // return 
         await axios.post(`http://localhost:5000/user/deleteuser/${data}`).then((result)=>{
             // console.log({user:result.data.success})
-            userdata()
+            userdata();
         })};
 
     const handleChange = (e) => {
@@ -98,7 +98,7 @@ export default function UserListing() {
                                 <div className="card-header">
                                 <h4>User Table</h4>
                                
-                                <button className='btn btn-success' type="submit"><i className='fas fa-user' >+</i></button>
+                                <a href="/useradd" className='btn btn-success' type="submit"><i className='fas fa-user' >+</i></a>
                                 </div>
                                 <div className="card-body p-0">
                                     <div className="table-responsive">

@@ -42,6 +42,26 @@ export default function Driverdetail() {
 
     
     }
+
+    const deleteUser=async()=>{
+
+        Swal.fire({
+          title: "Are you sure?",
+          text: "You want to delete??",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // localStorage.clear();
+            // window.location.href = "/";
+            Swal.fire("delete", "user deleted successfully", "success");
+          }
+        });
+       }
+      
     
 
     const handleChange = (e) => {
@@ -122,6 +142,10 @@ export default function Driverdetail() {
                                             <a href="/" className="btn btn-success " data-toggle="dropdown">
                                                 Detail
                                             </a>
+                                            <button className='btn btn-danger' onClick={()=>handleDelete(e._id)} type="submit">
+                                                <i className="fas fa-trash alt"></i>
+                                            </button>
+                                            
                                             <li className="dropdown-menu">
                                              <li><a className="nav-link text-right"  href="#show"  onClick={()=>handleShow(e)}>View</a></li>
                                              <li><a className="nav-link text-right" href="#edit"  onClick={()=>handleEdit(e)}>Update</a></li>

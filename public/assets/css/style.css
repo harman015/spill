@@ -212,13 +212,13 @@ select.form-control:not([size]):not([multiple]) {
 
 .form-group {
   margin-bottom: 25px; }
-  .form-group .control-label,
-  .form-group .control-label, .form-group > label {
+ 
+  .form-group .control-label, .form-group .control-label, .form-group > label {
     font-weight: 600;
-    color: #131419;
-    font-size: 15px;
+    color: #020514;
+    font-size: 17px;
     letter-spacing: .5px;
-    font-family: serif;
+    font-family: sans-serif;
 }
   .form-group.floating-addon {
     position: relative; }
@@ -607,18 +607,17 @@ select.form-control:not([size]):not([multiple]) {
 /* 3.5 Card */
 .card {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03);
-  background-color: #c9a8a8;
+  background-color: #8f3c4f87;
   border-radius: 3px;
   border: none;
   position: relative;
   margin-bottom: 30px;
-  color: #151414;
+  color: #ede3e7;
   font-size: 18px;
   font-family: sans-serif;
 }
-
 .col-12.col-md-6.col-lg-6 {
-  margin-left: 216px;
+  margin-left: 352px;
 }
 
 .col-6.col-md-4.mx-auto {

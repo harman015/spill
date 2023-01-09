@@ -12,6 +12,8 @@ import Driverdetail from "../component/Driver/Driverdetail";
 import Legal from "../component/pages/Legal";
 import Document from "../component/Driver/Document";
 import Useradd from "../component/user/useradd";
+import Driveradd from "../component/Driver/Driveradd";
+
 function AppRoutes() {
     const routes = useRoutes(
       [
@@ -20,6 +22,7 @@ function AppRoutes() {
          {path:'/main',element:<Main/>},
          {path:'/user',element:<User/>},
          {path:'/useradd',element:<Useradd/>},
+         {path:'/Driveradd',element:<Driveradd/>},
          {path:'/profile',element:<Profile/>},
          {path:'/privacy',element:<Privacy/>},
          {path:'/terms&condition',element:<Terms/>},
